@@ -9,42 +9,32 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.dynamicui.domain.model.UiComponent
 
 /**
- * Renders a numeric text input with range validations based on [UiComponent.NumberInput].
+ * Renders a numeric text input based on [UiComponent.NumberInput].
+ * State is hoisted to preserve inputs during list scrolling.
  */
 @Composable
 fun NumberInputComponent(
     model: UiComponent.NumberInput,
-    onValueChange: (Int) -> Unit,
+    value: String,
+    onValueChange: (String) -> Unit,
+    errorMessage: String?,
     modifier: Modifier = Modifier
 ) {
-    var textValue by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
-
     Column(modifier = modifier.fillMaxWidth().padding(vertical = 8.dp)) {
         Text(text = "${model.label} (Range: ${model.min} - ${model.max})")
         Spacer(modifier = Modifier.height(4.dp))
         OutlinedTextField(
-            value = textValue,
+            value = value,
             onValueChange = { input ->
-                textValue = input
-                val parsed = input.toIntOrNull()
-                if (parsed == null && input.isNotEmpty()) {
-                    errorMessage = "Please enter a valid integer"
-                } else if (parsed != null && (parsed < model.min || parsed > model.max)) {
-                    errorMessage = "Must be between ${model.min} and ${model.max}"
-                } else {
-                    errorMessage = null
-                    onValueChange(parsed ?: 0)
+                // Clean input validation: Allow only digits or empty string to prevent non-digit typing
+                if (input.isEmpty() || input.all { it.isDigit() }) {
+                    onValueChange(input)
                 }
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),

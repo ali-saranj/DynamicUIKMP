@@ -64,8 +64,8 @@ object ComponentDtoSerializer : JsonContentPolymorphicSerializer<ComponentDto>(C
         val jsonObject = element.jsonObject
         val type = jsonObject["type"]?.jsonPrimitive?.content
         return when (type) {
-            "text_input" -> TextFieldDto.serializer()
-            "number_input" -> NumberInputDto.serializer()
+            "text", "text_input" -> TextFieldDto.serializer()
+            "number", "number_input" -> NumberInputDto.serializer()
             "slider" -> SliderDto.serializer()
             else -> UnknownComponentDto.serializer()
         }

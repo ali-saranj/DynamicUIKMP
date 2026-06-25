@@ -18,7 +18,7 @@ class KtorDynamicUiApi(
 ) : DynamicUiApi {
 
     override suspend fun fetchComponents(): List<ComponentDto> {
-        val response: ResponseDto = httpClient.get("https://api.example.com/dynamic-ui").body()
+        val response: ResponseDto = httpClient.get("https://api.example.com/screen/home").body()
         return response.components
     }
 
