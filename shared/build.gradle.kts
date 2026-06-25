@@ -61,10 +61,16 @@ kotlin {
             
             // Coroutines
             implementation(libs.kotlinx.coroutines.core)
+
+            // DI (Koin)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.koin.test)
         }
     }
 }
