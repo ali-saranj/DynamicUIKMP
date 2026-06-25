@@ -96,7 +96,8 @@ Run the Android Host tests (which runs all `commonTest` assertions on your local
 *   DTO to Domain entity mapping.
 *   Reactive state flow driving the UI (`Idle -> Loading -> Success/Error`).
 *   Material 3 Compose wrappers for text inputs, validated numeric fields, and stepping range sliders.
-*   Unit tests checking serialization validity, fallback mechanisms, and ViewModel transitions.
+*   Interactive Preview / Mock Mode (accessible via the TopAppBar menu) allowing instant target-free switching between the Live REST API and local mock configurations (TextField, NumberInput, Slider, Unsupported, or simulated Network Timeout).
+*   Unit tests checking serialization validity, fallback mechanisms, ViewModel transitions, and mock JSON payloads.
 
 ### 🔮 Future Scalability
 1.  **Dependency Injection**: Integrate **Koin** in `:shared` for clean target-specific dependency management.

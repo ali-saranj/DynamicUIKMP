@@ -70,6 +70,7 @@ During the integration, two major platform issues were encountered and resolved:
 AI helped generate unit test boilerplate for both the data and presentation layers:
 *   [ComponentSerializationTest.kt](file:///E:/AndroidProject/DynamicUIKMP/shared/src/commonTest/kotlin/com/example/dynamicui/data/model/ComponentSerializationTest.kt): Validates JSON parsing and guarantees that unknown components fall back smoothly to `UnknownComponentDto` without throwing serialization exceptions.
 *   [DynamicUiViewModelTest.kt](file:///E:/AndroidProject/DynamicUIKMP/shared/src/commonTest/kotlin/com/example/dynamicui/presentation/DynamicUiViewModelTest.kt): Uses a fake repository to mock loading transitions (`Loading -> Success` or `Loading -> Error`) and processes View Intents inside Coroutines.
+*   [KtorDynamicUiApiTest.kt](file:///E:/AndroidProject/DynamicUIKMP/shared/src/commonTest/kotlin/com/example/dynamicui/data/remote/KtorDynamicUiApiTest.kt): Validates that the local JSON string templates returned for each mock source map cleanly into their respective DTO representation using the shared JSON config.
 
 All unit tests compiled and passed successfully under:
 ```bash

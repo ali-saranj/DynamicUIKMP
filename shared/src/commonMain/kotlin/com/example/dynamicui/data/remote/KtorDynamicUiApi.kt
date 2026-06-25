@@ -16,8 +16,102 @@ class KtorDynamicUiApi(
     private val httpClient: HttpClient
 ) : DynamicUiApi {
 
-    override suspend fun fetchComponentResponse(): ResponseDto {
-        return httpClient.get("https://api.example.com/screen/home").body()
+    override suspend fun fetchComponentResponse(source: MockSource): ResponseDto {
+        return when (source) {
+            MockSource.LIVE -> httpClient.get("https://api.example.com/screen/home").body()
+            MockSource.HOME_MOCK -> getMockHomeResponse()
+            MockSource.TEXT_FIELD -> getMockTextFieldResponse()
+            MockSource.NUMBER_INPUT -> getMockNumberInputResponse()
+            MockSource.SLIDER -> getMockSliderResponse()
+            MockSource.UNSUPPORTED -> getMockUnsupportedResponse()
+            MockSource.ERROR -> throw RuntimeException("Mock Network connection timed out (api.example.com)")
+        }
+    }
+
+    private fun getMockHomeResponse(): ResponseDto {
+        val jsonStr = """
+            {
+              "screenId": "home",
+              "title": "Welcome Home",
+              "component": {
+                "type": "text",
+                "id": "welcome_message",
+                "label": "Leave a guestbook entry",
+                "placeholder": "Type your message here...",
+                "isRequired": false
+              }
+            }
+        """.trimIndent()
+        return defaultJson.decodeFromString(jsonStr)
+    }
+
+    private fun getMockTextFieldResponse(): ResponseDto {
+        val jsonStr = """
+            {
+              "screenId": "home",
+              "title": "User Input",
+              "component": {
+                "type": "text",
+                "id": "user_prompt",
+                "label": "Ask something",
+                "placeholder": "Type your question...",
+                "isRequired": true
+              }
+            }
+        """.trimIndent()
+        return defaultJson.decodeFromString(jsonStr)
+    }
+
+    private fun getMockNumberInputResponse(): ResponseDto {
+        val jsonStr = """
+            {
+              "screenId": "home",
+              "title": "Age Input",
+              "component": {
+                "type": "number",
+                "id": "age",
+                "label": "Age Selection",
+                "placeholder": "Enter age",
+                "minVal": 18,
+                "maxVal": 99
+              }
+            }
+        """.trimIndent()
+        return defaultJson.decodeFromString(jsonStr)
+    }
+
+    private fun getMockSliderResponse(): ResponseDto {
+        val jsonStr = """
+            {
+              "screenId": "home",
+              "title": "Volume Screen",
+              "component": {
+                "type": "slider",
+                "id": "volume",
+                "label": "Volume Settings",
+                "min": 0.0,
+                "max": 100.0,
+                "value": 50.0,
+                "step": 5.0
+              }
+            }
+        """.trimIndent()
+        return defaultJson.decodeFromString(jsonStr)
+    }
+
+    private fun getMockUnsupportedResponse(): ResponseDto {
+        val jsonStr = """
+            {
+              "screenId": "home",
+              "title": "Unsupported Component",
+              "component": {
+                "type": "unsupported_checkbox",
+                "id": "agreement",
+                "label": "Accept Terms"
+              }
+            }
+        """.trimIndent()
+        return defaultJson.decodeFromString(jsonStr)
     }
 
     companion object {

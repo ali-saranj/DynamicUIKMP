@@ -1,5 +1,6 @@
 package com.example.dynamicui.presentation
 
+import com.example.dynamicui.data.remote.MockSource
 import com.example.dynamicui.domain.model.UiComponent
 import com.example.dynamicui.domain.repository.DynamicUiRepository
 import com.example.dynamicui.domain.usecase.FetchDynamicUiUseCase
@@ -76,7 +77,7 @@ class DynamicUiViewModelTest {
             UiComponent.NumberInput("id2", "Age", 0, 100)
         )
 
-        viewModel.handleIntent(DynamicUiIntent.Refresh)
+        viewModel.handleIntent(DynamicUiIntent.Refresh())
 
         val state = viewModel.uiState.value
         assertIs<DynamicUiState.Success>(state)
@@ -92,7 +93,7 @@ class FakeDynamicUiRepository(
     var result: List<UiComponent> = emptyList(),
     var shouldThrow: Boolean = false
 ) : DynamicUiRepository {
-    override suspend fun getComponentConfiguration(): List<UiComponent> {
+    override suspend fun getComponentConfiguration(source: MockSource): List<UiComponent> {
         if (shouldThrow) {
             throw Exception("Failed to fetch config")
         }

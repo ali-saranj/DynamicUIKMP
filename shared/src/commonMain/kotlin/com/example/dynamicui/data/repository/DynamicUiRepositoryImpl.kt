@@ -6,6 +6,7 @@ import com.example.dynamicui.data.model.NumberInputDto
 import com.example.dynamicui.data.model.SliderDto
 import com.example.dynamicui.data.model.UnknownComponentDto
 import com.example.dynamicui.data.remote.DynamicUiApi
+import com.example.dynamicui.data.remote.MockSource
 import com.example.dynamicui.domain.model.UiComponent
 import com.example.dynamicui.domain.repository.DynamicUiRepository
 
@@ -17,8 +18,8 @@ class DynamicUiRepositoryImpl(
     private val api: DynamicUiApi
 ) : DynamicUiRepository {
 
-    override suspend fun getComponentConfiguration(): List<UiComponent> {
-        val response = api.fetchComponentResponse()
+    override suspend fun getComponentConfiguration(source: MockSource): List<UiComponent> {
+        val response = api.fetchComponentResponse(source)
         return listOf(response.component.toDomain())
     }
 

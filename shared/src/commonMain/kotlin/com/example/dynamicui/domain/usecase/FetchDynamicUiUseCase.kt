@@ -1,5 +1,6 @@
 package com.example.dynamicui.domain.usecase
 
+import com.example.dynamicui.data.remote.MockSource
 import com.example.dynamicui.domain.model.UiComponent
 import com.example.dynamicui.domain.repository.DynamicUiRepository
 
@@ -9,7 +10,7 @@ import com.example.dynamicui.domain.repository.DynamicUiRepository
 class FetchDynamicUiUseCase(
     private val repository: DynamicUiRepository
 ) {
-    suspend operator fun invoke(): List<UiComponent> {
-        return repository.getComponentConfiguration()
+    suspend operator fun invoke(source: MockSource = MockSource.LIVE): List<UiComponent> {
+        return repository.getComponentConfiguration(source)
     }
 }

@@ -26,16 +26,23 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.dynamicui.data.remote.MockSource
 import com.example.dynamicui.domain.model.UiComponent
 import com.example.dynamicui.localization.Localizer
 import com.example.dynamicui.presentation.DynamicUiIntent
 import com.example.dynamicui.presentation.DynamicUiState
 import com.example.dynamicui.presentation.DynamicUiViewModel
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.TextButton
 
 /**
  * Screen level Composable mapping UI state flows into screen layouts.
@@ -48,6 +55,8 @@ fun DynamicUiScreen(
     modifier: Modifier = Modifier
 ) {
     val state by viewModel.uiState.collectAsState()
+    val currentSource by viewModel.currentSource.collectAsState()
+    var dropdownExpanded by remember { mutableStateOf(false) }
     val formValues = remember { mutableStateMapOf<String, Any>() }
     val validationErrors = remember { mutableStateMapOf<String, String>() }
 
@@ -98,7 +107,57 @@ fun DynamicUiScreen(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                ),
+                actions = {
+                    Box {
+                        TextButton(onClick = { dropdownExpanded = true }) {
+                            val activeLabel = when (currentSource) {
+                                MockSource.LIVE -> localStrings.liveApi
+                                MockSource.HOME_MOCK -> localStrings.mockHome
+                                MockSource.TEXT_FIELD -> localStrings.mockText
+                                MockSource.NUMBER_INPUT -> localStrings.mockNumber
+                                MockSource.SLIDER -> localStrings.mockSlider
+                                MockSource.UNSUPPORTED -> localStrings.mockUnsupported
+                                MockSource.ERROR -> localStrings.mockError
+                            }
+                            Text(
+                                text = "$activeLabel ▾",
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                        DropdownMenu(
+                            expanded = dropdownExpanded,
+                            onDismissRequest = { dropdownExpanded = false }
+                        ) {
+                            MockSource.entries.forEach { source ->
+                                val label = when (source) {
+                                    MockSource.LIVE -> localStrings.liveApi
+                                    MockSource.HOME_MOCK -> localStrings.mockHome
+                                    MockSource.TEXT_FIELD -> localStrings.mockText
+                                    MockSource.NUMBER_INPUT -> localStrings.mockNumber
+                                    MockSource.SLIDER -> localStrings.mockSlider
+                                    MockSource.UNSUPPORTED -> localStrings.mockUnsupported
+                                    MockSource.ERROR -> localStrings.mockError
+                                }
+                                DropdownMenuItem(
+                                    text = { 
+                                        Text(
+                                            text = label, 
+                                            fontWeight = if (source == currentSource) FontWeight.Bold else FontWeight.Normal 
+                                        ) 
+                                    },
+                                    onClick = {
+                                        dropdownExpanded = false
+                                        formValues.clear()
+                                        validationErrors.clear()
+                                        viewModel.handleIntent(DynamicUiIntent.Refresh(source))
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
             )
         },
         modifier = modifier.fillMaxSize()
@@ -131,7 +190,7 @@ fun DynamicUiScreen(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Button(
-                            onClick = { viewModel.handleIntent(DynamicUiIntent.Refresh) },
+                            onClick = { viewModel.handleIntent(DynamicUiIntent.Refresh()) },
                             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                         ) {
                             Text(localStrings.retry)
@@ -141,7 +200,7 @@ fun DynamicUiScreen(
                 is DynamicUiState.Success -> {
                     PullToRefreshBox(
                         isRefreshing = isRefreshing,
-                        onRefresh = { viewModel.handleIntent(DynamicUiIntent.Refresh) },
+                        onRefresh = { viewModel.handleIntent(DynamicUiIntent.Refresh()) },
                         modifier = Modifier.fillMaxSize()
                     ) {
                         Column(
