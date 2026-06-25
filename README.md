@@ -97,9 +97,11 @@ Run the Android Host tests (which runs all `commonTest` assertions on your local
 *   Reactive state flow driving the UI (`Idle -> Loading -> Success/Error`).
 *   Material 3 Compose wrappers for text inputs, validated numeric fields, and stepping range sliders.
 *   Interactive Preview / Mock Mode (accessible via the TopAppBar menu) allowing instant target-free switching between the Live REST API and local mock configurations (TextField, NumberInput, Slider, Unsupported, or simulated Network Timeout).
+*   **Dependency Injection (DI)**: Fully integrated **Koin** in `:shared` to manage dependencies (HTTP client, API, repository, use cases, view model) cleanly.
+*   **Internationalization & Localization (i18n/l10n)**: Runtime multi-language dictionary (English/Spanish) resolving from system environment locales.
 *   Unit tests checking serialization validity, fallback mechanisms, ViewModel transitions, and mock JSON payloads.
 
 ### 🔮 Future Scalability
-1.  **Dependency Injection**: Integrate **Koin** in `:shared` for clean target-specific dependency management.
-2.  **Server-Driven Input Validation**: Expand the DTO layout to send validation properties (like regex patterns, min-length limits, or conditional visibility conditions) and enforce them in the `UseCase` layer.
-3.  **Local Caching (Offline Mode)**: Integrate **SQLDelight** or **Room** database to store the last-successfully-fetched SDUI layout schema, providing instant offline screen rendering.
+1.  **Server-Driven Input Validation**: Expand the DTO layout to send validation properties (like regex patterns, min-length limits, or conditional visibility conditions) and enforce them in the `UseCase` layer.
+2.  **Local Caching (Offline Mode)**: Integrate **SQLDelight** or **Room** database to store the last-successfully-fetched SDUI layout schema, providing instant offline screen rendering.
+3.  **Dynamic Multi-Component Layouts**: Adapt the repository and engine to parse arrays of components instead of a single component REST response.
