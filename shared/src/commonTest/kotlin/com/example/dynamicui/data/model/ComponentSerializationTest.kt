@@ -20,7 +20,7 @@ class ComponentSerializationTest {
     fun testDeserializeTextField() {
         val jsonStr = """
             {
-                "type": "text_input",
+                "type": "text",
                 "id": "name_field",
                 "label": "Full Name",
                 "placeholder": "Enter your name",
@@ -40,7 +40,7 @@ class ComponentSerializationTest {
     fun testDeserializeNumberInput() {
         val jsonStr = """
             {
-                "type": "number_input",
+                "type": "number",
                 "id": "age_field",
                 "label": "Age",
                 "minVal": 18,
@@ -63,8 +63,9 @@ class ComponentSerializationTest {
                 "type": "slider",
                 "id": "satisfaction",
                 "label": "Satisfaction Rate",
-                "minVal": 1.0,
-                "maxVal": 5.0,
+                "min": 1.0,
+                "max": 5.0,
+                "value": 3.0,
                 "step": 0.5
             }
         """.trimIndent()
@@ -72,9 +73,39 @@ class ComponentSerializationTest {
         val component = json.decodeFromString<ComponentDto>(jsonStr)
         assertIs<SliderDto>(component)
         assertEquals("satisfaction", component.id)
-        assertEquals(1.0f, component.minVal)
-        assertEquals(5.0f, component.maxVal)
+        assertEquals(1.0f, component.min)
+        assertEquals(5.0f, component.max)
+        assertEquals(3.0f, component.value)
         assertEquals(0.5f, component.step)
+    }
+
+    @Test
+    fun testDeserializeResponseWrapper() {
+        val jsonStr = """
+            {
+                "screenId": "home",
+                "title": "Volume Screen",
+                "component": {
+                    "type": "slider",
+                    "id": "volume",
+                    "label": "Volume",
+                    "min": 0,
+                    "max": 100,
+                    "value": 50
+                }
+            }
+        """.trimIndent()
+
+        val response = json.decodeFromString<ResponseDto>(jsonStr)
+        assertEquals("home", response.screenId)
+        assertEquals("Volume Screen", response.title)
+        
+        val component = response.component
+        assertIs<SliderDto>(component)
+        assertEquals("volume", component.id)
+        assertEquals(0f, component.min)
+        assertEquals(100f, component.max)
+        assertEquals(50f, component.value)
     }
 
     @Test

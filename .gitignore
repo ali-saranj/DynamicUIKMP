@@ -54,3 +54,6 @@ DerivedData/
 
 # OS-specific Files
 Thumbs.db
+
+# Kotlin profiling
+kotlin-profile/

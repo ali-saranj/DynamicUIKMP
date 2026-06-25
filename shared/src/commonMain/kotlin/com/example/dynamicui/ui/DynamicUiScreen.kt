@@ -32,13 +32,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.dynamicui.domain.model.UiComponent
+import com.example.dynamicui.localization.Localizer
 import com.example.dynamicui.presentation.DynamicUiIntent
 import com.example.dynamicui.presentation.DynamicUiState
 import com.example.dynamicui.presentation.DynamicUiViewModel
 
 /**
  * Screen level Composable mapping UI state flows into screen layouts.
- * Features MVI state switching, validation, dynamic color rendering, and pull-to-refresh.
+ * Features MVI state switching, validation, dynamic color rendering, i18n, and pull-to-refresh.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,6 +52,7 @@ fun DynamicUiScreen(
     val validationErrors = remember { mutableStateMapOf<String, String>() }
 
     val isRefreshing = state is DynamicUiState.Loading
+    val localStrings = Localizer.strings
 
     // Validation engine helper
     fun validateForm(components: List<UiComponent>): Boolean {
@@ -61,22 +63,24 @@ fun DynamicUiScreen(
                 is UiComponent.TextInput -> {
                     val value = formValues[component.id] as? String ?: ""
                     if (component.isRequired && value.isBlank()) {
-                        validationErrors[component.id] = "This field is required"
+                        validationErrors[component.id] = localStrings.fieldRequired
                         isValid = false
                     }
                 }
                 is UiComponent.NumberInput -> {
                     val value = formValues[component.id] as? String ?: ""
                     if (value.isBlank()) {
-                        validationErrors[component.id] = "This field is required"
+                        validationErrors[component.id] = localStrings.fieldRequired
                         isValid = false
                     } else {
                         val parsed = value.toIntOrNull()
                         if (parsed == null) {
-                            validationErrors[component.id] = "Must be a valid integer"
+                            validationErrors[component.id] = localStrings.invalidInteger
                             isValid = false
                         } else if (parsed < component.min || parsed > component.max) {
-                            validationErrors[component.id] = "Must be between ${component.min} and ${component.max}"
+                            validationErrors[component.id] = localStrings.mustBeBetween
+                                .replaceFirst("%d", component.min.toString())
+                                .replaceFirst("%d", component.max.toString())
                             isValid = false
                         }
                     }
@@ -90,7 +94,7 @@ fun DynamicUiScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Dynamic Form", style = MaterialTheme.typography.titleMedium) },
+                title = { Text(localStrings.dynamicForm, style = MaterialTheme.typography.titleMedium) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -130,7 +134,7 @@ fun DynamicUiScreen(
                             onClick = { viewModel.handleIntent(DynamicUiIntent.Refresh) },
                             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                         ) {
-                            Text("Retry")
+                            Text(localStrings.retry)
                         }
                     }
                 }
@@ -153,7 +157,7 @@ fun DynamicUiScreen(
                             ) {
                                 Column(modifier = Modifier.padding(16.dp)) {
                                     Text(
-                                        text = "Please complete the dynamically loaded form below. Fields marked with * are required.",
+                                        text = localStrings.infoMessage,
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
@@ -182,7 +186,7 @@ fun DynamicUiScreen(
                                 shape = RoundedCornerShape(8.dp),
                                 modifier = Modifier.fillMaxWidth().height(50.dp)
                             ) {
-                                Text("Submit Form", style = MaterialTheme.typography.titleMedium)
+                                Text(localStrings.submitForm, style = MaterialTheme.typography.titleMedium)
                             }
                         }
                     }

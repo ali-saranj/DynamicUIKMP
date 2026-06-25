@@ -7,3 +7,5 @@ class IOSPlatform: Platform {
 }
 
 actual fun getPlatform(): Platform = IOSPlatform()
+
+actual fun getSystemLocale(): String = platform.Foundation.NSLocale.currentLocale.languageCode

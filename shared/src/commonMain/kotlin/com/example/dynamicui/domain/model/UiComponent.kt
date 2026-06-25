@@ -36,6 +36,7 @@ sealed interface UiComponent {
         override val label: String,
         val min: Float,
         val max: Float,
+        val defaultValue: Float,
         val step: Float
     ) : UiComponent
 

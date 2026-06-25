@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.dynamicui.domain.model.UiComponent
+import com.example.dynamicui.localization.Localizer
 
 /**
  * Fallback Composable for components unrecognized by this client version.
@@ -26,6 +27,8 @@ fun UnknownComponent(
     model: UiComponent.Unsupported,
     modifier: Modifier = Modifier
 ) {
+    val localStrings = Localizer.strings
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -41,13 +44,15 @@ fun UnknownComponent(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Unsupported Element",
+                text = localStrings.unsupportedElement,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.error
             )
         }
         Text(
-            text = "Component with ID '${model.id}' has type '${model.typeName}' which is not supported by this version of the app.",
+            text = localStrings.unsupportedMessage
+                .replaceFirst("%s", model.id)
+                .replaceFirst("%s", model.typeName),
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(top = 8.dp)
         )

@@ -46,7 +46,7 @@ fun DynamicUiRenderer(
                     )
                 }
                 is UiComponent.SliderInput -> {
-                    val currentValue = formValues[component.id] as? Float ?: component.min
+                    val currentValue = formValues[component.id] as? Float ?: component.defaultValue
                     SliderComponent(
                         model = component,
                         value = currentValue,

@@ -40,9 +40,10 @@ data class NumberInputDto(
 data class SliderDto(
     override val id: String,
     override val label: String,
-    val minVal: Float = 0.0f,
-    val maxVal: Float = 100.0f,
-    val step: Float = 1.0f
+    val min: Float = 0f,
+    val max: Float = 100f,
+    val value: Float = 50f,
+    val step: Float = 1f
 ) : ComponentDto
 
 /**

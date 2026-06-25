@@ -18,8 +18,8 @@ class DynamicUiRepositoryImpl(
 ) : DynamicUiRepository {
 
     override suspend fun getComponentConfiguration(): List<UiComponent> {
-        val dtos = api.fetchComponents()
-        return dtos.map { it.toDomain() }
+        val response = api.fetchComponentResponse()
+        return listOf(response.component.toDomain())
     }
 
     private fun ComponentDto.toDomain(): UiComponent = when (this) {
@@ -38,8 +38,9 @@ class DynamicUiRepositoryImpl(
         is SliderDto -> UiComponent.SliderInput(
             id = id,
             label = label,
-            min = minVal,
-            max = maxVal,
+            min = min,
+            max = max,
+            defaultValue = value,
             step = step
         )
         is UnknownComponentDto -> UiComponent.Unsupported(

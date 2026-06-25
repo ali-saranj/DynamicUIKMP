@@ -1,6 +1,5 @@
 package com.example.dynamicui.data.remote
 
-import com.example.dynamicui.data.model.ComponentDto
 import com.example.dynamicui.data.model.ResponseDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -17,22 +16,27 @@ class KtorDynamicUiApi(
     private val httpClient: HttpClient
 ) : DynamicUiApi {
 
-    override suspend fun fetchComponents(): List<ComponentDto> {
-        val response: ResponseDto = httpClient.get("https://api.example.com/screen/home").body()
-        return response.components
+    override suspend fun fetchComponentResponse(): ResponseDto {
+        return httpClient.get("https://api.example.com/screen/home").body()
     }
 
     companion object {
+        private val defaultJson by lazy {
+            Json {
+                ignoreUnknownKeys = true
+                coerceInputValues = true
+                prettyPrint = true
+            }
+        }
+
         /**
          * Helper builder to construct an HTTP client with polymorphic serialization enabled.
          */
-        fun createDefaultHttpClient(): HttpClient = HttpClient {
-            install(ContentNegotiation) {
-                json(Json {
-                    ignoreUnknownKeys = true
-                    coerceInputValues = true
-                    prettyPrint = true
-                })
+        fun createDefaultHttpClient(): HttpClient {
+            return HttpClient {
+                install(ContentNegotiation) {
+                    json(defaultJson)
+                }
             }
         }
     }
