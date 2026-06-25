@@ -1,0 +1,56 @@
+# Gradle & Build Artifacts
+.gradle/
+build/
+**/build/
+!src/**/build/
+local.properties
+.gradletasknamecache
+
+# Local Workspace Cache Directories
+.kotlin/
+.tmp/
+caches/
+daemon/
+jdks/
+native/
+wrapper/
+
+# Android Studio & IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.ap_
+*.aab
+output.json
+
+# iOS / Xcode / CocoaPods
+.DS_Store
+iosApp/build/
+iosApp/Pods/
+iosApp/.symlinks/
+iosApp/iosApp.xcworkspace/xcuserdata/
+iosApp/iosApp.xcodeproj/xcuserdata/
+iosApp/iosApp.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcuserstate
+*.xcworkspace/
+DerivedData/
+.xcrun/
+
+# Kotlin Native Compiler outputs
+*.klib
+*.kexe
+*.kt.bc
+
+# Keystores & Signing Keys
+*.jks
+*.keystore
+.signing/
+
+# OS-specific Files
+Thumbs.db
