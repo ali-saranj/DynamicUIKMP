@@ -83,14 +83,13 @@ Run the Android Host tests (which runs all `commonTest` assertions on your local
 
 ## 📸 Screenshots
 
-| 1. Text Input Screen | 2. Number Input Screen | 3. Slider Screen |
+| 1. Live REST API (Age 0-100) | 2. Mock: Home (Guestbook) | 3. Mock: Text Input |
 | :---: | :---: | :---: |
-| ![Text Input](Screenshot/Screenshot_20260627_003212.png) | ![Number Input](Screenshot/Screenshot_20260627_003231.png) | ![Slider](Screenshot/Screenshot_20260627_003257.png) |
+| ![Live REST API](Screenshot_20260627_003212.png) | ![Mock: Home](Screenshot_20260627_003231.png) | ![Mock: Text Input](Screenshot_20260627_003257.png) |
 
-| 4. Unsupported Component | 5. Network Error & Retry | 6. Spanish Localization | 7. Interactive Source Selector |
+| 4. Mock: Number Input | 5. Mock: Slider (Volume) | 6. Unsupported Component | 7. Network Error & Retry |
 | :---: | :---: | :---: | :---: |
-| ![Unsupported](Screenshot/Screenshot_20260627_003307.png) | ![Error State](Screenshot/Screenshot_20260627_003317.png) | ![Spanish Local](Screenshot/Screenshot_20260627_004023.png) | ![Dropdown Menu](Screenshot/Screenshot_20260627_004033.png) |
-
+| ![Mock: Number Input](Screenshot_20260627_003307.png) | ![Mock: Slider](Screenshot_20260627_003317.png) | ![Unsupported Element](Screenshot_20260627_004023.png) | ![Network Error](Screenshot_20260627_004033.png) |
 ---
 
 ## 📝 Assumptions Made
