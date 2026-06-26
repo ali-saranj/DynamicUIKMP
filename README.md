@@ -85,11 +85,11 @@ Run the Android Host tests (which runs all `commonTest` assertions on your local
 
 | 1. Text Input Screen | 2. Number Input Screen | 3. Slider Screen |
 | :---: | :---: | :---: |
-| ![Text Input](ScreanShot/Screenshot_20260627_003212.png) | ![Number Input](ScreanShot/Screenshot_20260627_003231.png) | ![Slider](ScreanShot/Screenshot_20260627_003257.png) |
+| ![Text Input](Screenshot/Screenshot_20260627_003212.png) | ![Number Input](Screenshot/Screenshot_20260627_003231.png) | ![Slider](Screenshot/Screenshot_20260627_003257.png) |
 
 | 4. Unsupported Component | 5. Network Error & Retry | 6. Spanish Localization | 7. Interactive Source Selector |
 | :---: | :---: | :---: | :---: |
-| ![Unsupported](ScreanShot/Screenshot_20260627_003307.png) | ![Error State](ScreanShot/Screenshot_20260627_003317.png) | ![Spanish Local](ScreanShot/Screenshot_20260627_004023.png) | ![Dropdown Menu](ScreanShot/Screenshot_20260627_004033.png) |
+| ![Unsupported](Screenshot/Screenshot_20260627_003307.png) | ![Error State](Screenshot/Screenshot_20260627_003317.png) | ![Spanish Local](Screenshot/Screenshot_20260627_004023.png) | ![Dropdown Menu](Screenshot/Screenshot_20260627_004033.png) |
 
 ---
 
