@@ -18,7 +18,7 @@ class KtorDynamicUiApi(
 
     override suspend fun fetchComponentResponse(source: MockSource): ResponseDto {
         return when (source) {
-            MockSource.LIVE -> httpClient.get("https://api.example.com/screen/home").body()
+            MockSource.LIVE -> httpClient.get("http://192.168.1.4:9095/screen/home").body()
             MockSource.HOME_MOCK -> getMockHomeResponse()
             MockSource.TEXT_FIELD -> getMockTextFieldResponse()
             MockSource.NUMBER_INPUT -> getMockNumberInputResponse()
